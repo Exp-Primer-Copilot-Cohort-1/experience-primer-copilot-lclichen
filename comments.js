@@ -1,25 +1,20 @@
-//create web server
-var http = require('http');
-var fs = require('fs');
-var url = require('url');
-var path = require('path');
+// Create web server
+// Create a web server that listens on port 8080 and serves the comments.js file.
+// The comments.js file should contain the following code:
+// var comments = [“First!”, “Second”, “Hooray!”, “Fourth”, “Fifth”];
+// module.exports = comments;
+// Make sure to use the appropriate function from the http module to serve the comments.js file.
 
-//create server
-var server = http.createServer(function (req, res) {
-    var pathname = url.parse(req.url).pathname;
-    var filePath = path.join(__dirname, pathname);
+const http = require('http');
+const fs = require('fs');
 
-    fs.readFile(filePath, function (err, data) {
-        if (err) {
-            res.writeHead(404, { 'Content-Type': 'text/html' });
-            res.end('404 Not Found');
-        } else {
-            res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.end(data);
-        }
-    });
-});
-
-server.listen(3000, function () {
-    console.log('Server is running on port 3000');
-});
+http.createServer((req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/javascript'});
+  fs.readFile('./comments.js', (err, data) => {
+    if (err) {
+      console.log(err);
+    }
+    res.end(data);
+  });
+}).listen(8080);
+console.log('Server is running at http://localhost:8080/');
